@@ -1,0 +1,235 @@
+<div id="nexaro-root"></div>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+
+#nexaro-root{
+  --navy:#101B33;
+  --navy-deep:#0A1226;
+  --steel:#8A96A8;
+  --steel-light:#C6CCD6;
+  --gold:#B8862E;
+  --gold-light:#D4A94F;
+  --ivory:#FAF8F3;
+  --ink:#141821;
+  --font-display:'Space Grotesk', sans-serif;
+  --font-body:'Inter', sans-serif;
+  --font-mono:'JetBrains Mono', monospace;
+  font-family: var(--font-body);
+  color: var(--ink);
+  background: var(--ivory);
+  border-radius: 12px;
+  overflow: hidden;
+}
+#nexaro-root *{ box-sizing: border-box; }
+
+/* ---- nav ---- */
+.nx-nav{ display:flex; align-items:center; justify-content:space-between; padding: 22px 40px; background: var(--ivory); border-bottom: 1px solid #e6e1d6; position: sticky; top:0; z-index: 10; }
+.nx-brand{ display:flex; align-items:center; gap:12px; }
+.nx-mark{ width:34px; height:34px; }
+.nx-brand-text{ font-family: var(--font-display); font-weight:700; font-size:18px; letter-spacing:0.02em; color: var(--navy); line-height:1.1; }
+.nx-brand-text span{ display:block; font-family: var(--font-mono); font-size:9px; letter-spacing:0.18em; color: var(--gold); font-weight:500; }
+.nx-links{ display:flex; gap:32px; list-style:none; margin:0; padding:0; }
+.nx-links button{ background:none; border:none; font-family: var(--font-body); font-size:13.5px; font-weight:600; color: var(--navy); cursor:pointer; }
+.nx-cta{ background: var(--navy); color:#fff; border:none; padding:11px 22px; border-radius:2px; font-size:13px; font-weight:600; cursor:pointer; letter-spacing:0.02em; }
+
+/* ---- hero ---- */
+.nx-hero{ position:relative; background: var(--navy); color: var(--ivory); padding: 100px 40px 90px; overflow:hidden; }
+.nx-hero-mesh{ position:absolute; inset:0; opacity:0.5; }
+.nx-hero-inner{ position:relative; max-width: 760px; margin:0 auto; text-align:center; }
+.nx-eyebrow{ font-family: var(--font-mono); font-size:11px; letter-spacing:0.28em; text-transform:uppercase; color: var(--gold-light); margin-bottom:22px; }
+.nx-hero h1{ font-family: var(--font-display); font-weight:700; font-size:50px; line-height:1.12; margin:0 0 22px; letter-spacing:-0.01em; }
+.nx-hero h1 em{ font-style:normal; color: var(--gold-light); }
+.nx-hero p{ font-size:16px; line-height:1.65; color: var(--steel-light); max-width:560px; margin: 0 auto 34px; }
+.nx-hero-cta{ display:flex; gap:14px; justify-content:center; }
+.btn-gold{ background: var(--gold); color: var(--navy-deep); border:none; padding:14px 28px; border-radius:2px; font-weight:700; font-size:13.5px; letter-spacing:0.02em; cursor:pointer; }
+.btn-ghost{ background:transparent; border:1px solid rgba(255,255,255,0.3); color: var(--ivory); padding:14px 28px; border-radius:2px; font-weight:600; font-size:13.5px; cursor:pointer; }
+
+/* ---- section shell ---- */
+.nx-section{ padding: 80px 40px; max-width: 1080px; margin: 0 auto; }
+.nx-head{ margin-bottom: 44px; max-width: 620px; }
+.nx-head .eyebrow{ font-family: var(--font-mono); font-size:11px; letter-spacing:0.22em; text-transform:uppercase; color: var(--gold); font-weight:600; margin-bottom:12px; }
+.nx-head h2{ font-family: var(--font-display); font-size:32px; font-weight:700; color: var(--navy); margin:0; letter-spacing:-0.01em; }
+.nx-head p{ color:#5b5f6b; font-size:14.5px; line-height:1.6; margin-top:12px; }
+
+/* ---- services ---- */
+.svc-grid{ display:grid; grid-template-columns: repeat(2,1fr); gap:2px; background:#e6e1d6; border:1px solid #e6e1d6; }
+.svc-card{ background: var(--ivory); padding: 30px 28px; }
+.svc-num{ font-family: var(--font-mono); font-size:11px; color: var(--gold); letter-spacing:0.1em; margin-bottom:14px; }
+.svc-card h3{ font-family: var(--font-display); font-size:19px; font-weight:600; color: var(--navy); margin:0 0 10px; }
+.svc-card p{ font-size:13.5px; line-height:1.65; color:#5b5f6b; margin:0; }
+
+/* ---- about ---- */
+.about-wrap{ display:grid; grid-template-columns: 1fr 1.4fr; gap:48px; align-items:start; }
+.about-mark{ width:100%; aspect-ratio:1; border:1px solid #e6e1d6; display:flex; align-items:center; justify-content:center; background: var(--navy); }
+.about-copy p{ font-size:14.5px; line-height:1.75; color:#3a3d45; margin-bottom:16px; }
+.about-stats{ display:flex; gap:32px; margin-top:24px; }
+.stat b{ display:block; font-family: var(--font-display); font-size:26px; color: var(--navy); }
+.stat span{ font-family: var(--font-mono); font-size:10px; letter-spacing:0.08em; color: var(--gold); text-transform:uppercase; }
+
+/* ---- approach ---- */
+.approach-list{ counter-reset: step; border-top:1px solid #e6e1d6; }
+.approach-item{ counter-increment: step; display:grid; grid-template-columns: 70px 1fr; gap:20px; padding: 24px 0; border-bottom:1px solid #e6e1d6; }
+.approach-item::before{ content: counter(step, decimal-leading-zero); font-family: var(--font-mono); font-size:13px; color: var(--gold); font-weight:600; }
+.approach-item h4{ font-family: var(--font-display); font-size:17px; font-weight:600; color: var(--navy); margin:0 0 6px; }
+.approach-item p{ font-size:13.5px; color:#5b5f6b; margin:0; line-height:1.6; max-width:520px; }
+
+/* ---- contact ---- */
+.nx-contact{ background: var(--navy); color: var(--ivory); padding: 80px 40px; }
+.contact-inner{ max-width:1080px; margin:0 auto; display:grid; grid-template-columns:1fr 1fr; gap:50px; }
+.contact-inner h2{ font-family: var(--font-display); font-size:30px; margin:0 0 16px; }
+.contact-inner > div:first-child p{ color: var(--steel-light); font-size:14.5px; line-height:1.7; max-width:420px; }
+.c-row{ display:flex; align-items:center; gap:14px; padding: 14px 0; border-bottom:1px solid rgba(255,255,255,0.12); font-size:14px; }
+.c-row .ic{ width:30px; height:30px; border-radius:50%; background: rgba(184,134,46,0.18); display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:14px; }
+.c-row a{ color: var(--ivory); text-decoration:none; }
+.c-row a:hover{ color: var(--gold-light); }
+
+footer.nx-foot{ background: var(--navy-deep); color: var(--steel); text-align:center; padding: 22px; font-size:11.5px; font-family: var(--font-mono); letter-spacing:0.02em; }
+
+@media (max-width: 720px){
+  .nx-links{ display:none; }
+  .nx-hero h1{ font-size:34px; }
+  .svc-grid{ grid-template-columns: 1fr; }
+  .about-wrap{ grid-template-columns: 1fr; }
+  .contact-inner{ grid-template-columns: 1fr; }
+}
+</style>
+<script>
+(function(){
+  const root = document.getElementById('nexaro-root');
+
+  function markSVG(size){
+    return `<svg width="${size}" height="${size}" viewBox="0 0 100 100">
+      <polygon points="50,5 90,30 90,70 50,95 10,70 10,30" fill="none" stroke="#B8862E" stroke-width="2"/>
+      <polygon points="50,5 90,30 50,50 10,30" fill="#C6CCD6" opacity="0.9"/>
+      <polygon points="50,50 90,30 90,70 50,95" fill="#8A96A8" opacity="0.9"/>
+      <polygon points="50,50 10,30 10,70 50,95" fill="#101B33" opacity="0.85"/>
+      <line x1="50" y1="5" x2="50" y2="50" stroke="#0A1226" stroke-width="1"/>
+      <line x1="10" y1="30" x2="50" y2="50" stroke="#0A1226" stroke-width="1"/>
+      <line x1="90" y1="30" x2="50" y2="50" stroke="#0A1226" stroke-width="1"/>
+    </svg>`;
+  }
+
+  function meshSVG(){
+    const pts = [[60,40],[180,20],[300,60],[420,15],[540,50],[660,25],
+                 [90,140],[230,110],[360,150],[490,120],[610,155],
+                 [50,240],[190,220],[330,255],[460,215],[600,245],
+                 [110,340],[260,320],[400,350],[540,315]];
+    let lines='';
+    for(let i=0;i<pts.length;i++){
+      for(let j=i+1;j<pts.length;j++){
+        const d = Math.hypot(pts[i][0]-pts[j][0], pts[i][1]-pts[j][1]);
+        if(d < 150 && Math.random()>0.55){
+          lines += `<line x1="${pts[i][0]}" y1="${pts[i][1]}" x2="${pts[j][0]}" y2="${pts[j][1]}" stroke="#B8862E" stroke-width="0.6" opacity="0.35"/>`;
+        }
+      }
+    }
+    let dots = pts.map(p=>`<circle cx="${p[0]}" cy="${p[1]}" r="2.2" fill="#D4A94F" opacity="0.6"/>`).join('');
+    return `<svg viewBox="0 0 680 380" width="100%" height="100%" preserveAspectRatio="xMidYMid slice">${lines}${dots}</svg>`;
+  }
+
+  root.innerHTML = `
+    <nav class="nx-nav">
+      <div class="nx-brand">
+        ${markSVG(34)}
+        <div class="nx-brand-text">NEXARO GLOBAL<span>PTY LTD</span></div>
+      </div>
+      <ul class="nx-links">
+        <li><button onclick="document.getElementById('nx-services').scrollIntoView({behavior:'smooth'})">Services</button></li>
+        <li><button onclick="document.getElementById('nx-about').scrollIntoView({behavior:'smooth'})">About</button></li>
+        <li><button onclick="document.getElementById('nx-approach').scrollIntoView({behavior:'smooth'})">Approach</button></li>
+      </ul>
+      <button class="nx-cta" onclick="document.getElementById('nx-contact').scrollIntoView({behavior:'smooth'})">Get in Touch</button>
+    </nav>
+
+    <section class="nx-hero">
+      <div class="nx-hero-mesh">${meshSVG()}</div>
+      <div class="nx-hero-inner">
+        <div class="nx-eyebrow">IT Delivery &amp; Digital Transformation Advisory</div>
+        <h1>Every transformation<br/>has a <em>delivery problem</em>.<br/>We solve that part.</h1>
+        <p>Nexaro Global partners with financial services and SME businesses to plan, de-risk, and deliver technology change that actually lands \u2014 from cloud migration to cards &amp; payments modernisation.</p>
+        <div class="nx-hero-cta">
+          <button class="btn-gold" onclick="document.getElementById('nx-contact').scrollIntoView({behavior:'smooth'})">Start a Conversation</button>
+          <button class="btn-ghost" onclick="document.getElementById('nx-services').scrollIntoView({behavior:'smooth'})">See Our Services</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="nx-section" id="nx-services">
+      <div class="nx-head">
+        <div class="eyebrow">What We Do</div>
+        <h2>Delivery capability, on demand</h2>
+        <p>Four areas where transformation programmes most often stall \u2014 and where senior delivery leadership makes the difference.</p>
+      </div>
+      <div class="svc-grid">
+        <div class="svc-card">
+          <div class="svc-num">/ 01</div>
+          <h3>Digital Transformation Advisory</h3>
+          <p>End-to-end scoping and delivery leadership for website, platform, and process modernisation programmes \u2014 from current-state audit through to rollout.</p>
+        </div>
+        <div class="svc-card">
+          <div class="svc-num">/ 02</div>
+          <h3>Cloud &amp; Payments Modernisation</h3>
+          <p>Cards and payments platform uplift, AWS cloud migration, and legacy system transition for financial services and regulated industries.</p>
+        </div>
+        <div class="svc-card">
+          <div class="svc-num">/ 03</div>
+          <h3>IT Delivery Leadership</h3>
+          <p>Interim Business Analyst, Scrum Master, Product Owner, or Service Delivery Manager capacity \u2014 embedded directly into your programme.</p>
+        </div>
+        <div class="svc-card">
+          <div class="svc-num">/ 04</div>
+          <h3>Business Case &amp; Governance</h3>
+          <p>ROI modelling, stakeholder alignment, and program governance frameworks that get transformation initiatives approved and funded.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="nx-section" id="nx-about">
+      <div class="about-wrap">
+        <div class="about-mark">${markSVG(140)}</div>
+        <div class="about-copy">
+          <div class="eyebrow" style="margin-bottom:10px;">Founder</div>
+          <h2 style="font-family:var(--font-display);font-size:26px;color:var(--navy);margin:0 0 16px;">Lokesh Kumar Upadhyay</h2>
+          <p>Lokesh founded Nexaro Global after 20+ years leading technology delivery inside financial services \u2014 spanning Business Analyst, Scrum Master, Product Owner, and Service Delivery Manager roles across retail banking, cards and payments, cloud migration, and regulatory programmes.</p>
+          <p>Nexaro Global exists for one reason: most transformation programmes don't fail on strategy, they fail on delivery. Lokesh brings senior, hands-on delivery leadership to organisations that need a programme to actually ship \u2014 not just get planned.</p>
+          <div class="about-stats">
+            <div class="stat"><b>20+</b><span>Years in IT Delivery</span></div>
+            <div class="stat"><b>15+</b><span>Years as BA</span></div>
+            <div class="stat"><b>4</b><span>Delivery Disciplines</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="nx-section" id="nx-approach">
+      <div class="nx-head">
+        <div class="eyebrow">How We Work</div>
+        <h2>A straightforward engagement path</h2>
+      </div>
+      <div class="approach-list">
+        <div class="approach-item"><div><h4>Current-State Assessment</h4><p>A structured audit of what exists today \u2014 systems, process, content, risk \u2014 before anything is proposed.</p></div></div>
+        <div class="approach-item"><div><h4>Business Case &amp; Options</h4><p>Clear, costed options with a recommendation \u2014 built for approval, not just discussion.</p></div></div>
+        <div class="approach-item"><div><h4>Delivery Planning</h4><p>A phased roadmap with governance, risk mitigation, and change management built in from day one.</p></div></div>
+        <div class="approach-item"><div><h4>Hands-On Delivery</h4><p>Embedded delivery leadership through implementation, not just advice from the sidelines.</p></div></div>
+      </div>
+    </section>
+
+    <section class="nx-contact" id="nx-contact">
+      <div class="contact-inner">
+        <div>
+          <h2>Let's talk delivery.</h2>
+          <p>Based in Strathfield, NSW \u2014 working with clients across Sydney and nationally. Reach out directly, no forms.</p>
+        </div>
+        <div>
+          <div class="c-row"><span class="ic">in</span><a href="https://linkedin.com/in/lokesh-kumar-upadhyay-25851921/" target="_blank" rel="noopener">linkedin.com/in/lokesh-kumar-upadhyay-25851921</a></div>
+          <div class="c-row"><span class="ic">\u260E</span><a href="tel:+61414845640">+61 414 845 640</a> &nbsp;/&nbsp; <a href="tel:+61481825576">+61 481 825 576</a></div>
+          <div class="c-row"><span class="ic">\u2709</span><a href="mailto:lok0781@outlook.com">lok0781@outlook.com</a></div>
+          <div class="c-row"><span class="ic">\u{1F4CD}</span><span>U8, 97-99 Arthur St, Strathfield, 2135 NSW, Australia</span></div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="nx-foot">\u00a9 2026 NEXARO GLOBAL PTY LTD \u2014 IT DELIVERY &amp; DIGITAL TRANSFORMATION ADVISORY</footer>
+  `;
+})();
+</script>
