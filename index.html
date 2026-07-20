@@ -123,6 +123,45 @@
 
 footer.nx-foot{ background: var(--navy-deep); color: var(--steel); text-align:center; padding: 22px; font-size:11.5px; font-family: var(--font-mono); letter-spacing:0.02em; }
 
+/* ---- chatbot widget ---- */
+.nx-chat-bubble{
+  position:fixed; bottom:24px; right:24px; width:60px; height:60px; border-radius:50%;
+  background: var(--navy); border:2px solid var(--gold); display:flex; align-items:center; justify-content:center;
+  cursor:pointer; z-index:999; box-shadow:0 6px 18px rgba(16,27,51,0.35); transition: transform 0.2s;
+}
+.nx-chat-bubble:hover{ transform: scale(1.06); }
+.nx-chat-bubble svg{ width:26px; height:26px; }
+.nx-chat-panel{
+  position:fixed; bottom:96px; right:24px; width:340px; max-width:calc(100vw - 32px); max-height:520px;
+  background:#fff; border:1px solid var(--line); border-radius:12px; box-shadow:0 12px 40px rgba(16,27,51,0.25);
+  display:none; flex-direction:column; overflow:hidden; z-index:999; font-family: var(--font-body);
+}
+.nx-chat-panel.open{ display:flex; }
+.nx-chat-head{ background: var(--navy); color:#fff; padding:14px 16px; display:flex; align-items:center; justify-content:space-between; }
+.nx-chat-head .title{ font-family: var(--font-display); font-size:14.5px; font-weight:700; }
+.nx-chat-head .sub{ font-family: var(--font-mono); font-size:10px; color: var(--gold-light); margin-top:2px; }
+.nx-chat-close{ background:none; border:none; color:#fff; font-size:18px; cursor:pointer; line-height:1; padding:2px 4px; }
+.nx-chat-body{ flex:1; overflow-y:auto; padding:14px 14px 8px; background: var(--ivory); display:flex; flex-direction:column; gap:10px; }
+.nx-msg{ max-width:85%; padding:9px 12px; border-radius:10px; font-size:13px; line-height:1.55; }
+.nx-msg.bot{ background:#fff; border:1px solid var(--line); color:#2a2d33; align-self:flex-start; border-bottom-left-radius:2px; }
+.nx-msg.user{ background: var(--navy); color:#fff; align-self:flex-end; border-bottom-right-radius:2px; }
+.nx-chat-options{ padding:8px 14px 14px; background: var(--ivory); display:flex; flex-direction:column; gap:6px; border-top:1px solid var(--line); }
+.nx-chat-opt{
+  background:#fff; border:1.5px solid var(--gold); color: var(--navy); border-radius:100px; padding:8px 14px;
+  font-size:12.5px; font-weight:600; cursor:pointer; text-align:left; transition: background 0.15s;
+}
+.nx-chat-opt:hover{ background: var(--gold); color:#fff; }
+.nx-chat-input-row{ display:flex; gap:8px; padding:10px 14px 14px; background:#fff; border-top:1px solid var(--line); }
+.nx-chat-input-row input{ flex:1; border:1px solid var(--line); border-radius:8px; padding:9px 11px; font-size:12.5px; }
+.nx-chat-input-row button{ background: var(--navy); color:#fff; border:none; padding:0 16px; border-radius:8px; font-weight:700; font-size:12.5px; cursor:pointer; }
+.nx-chat-input-row button:disabled{ background:#9aa5ae; cursor:default; }
+.nx-msg.typing{ font-style:italic; color: var(--grey); }
+@media (max-width: 420px){
+  .nx-chat-panel{ right:16px; left:16px; width:auto; bottom:88px; }
+  .nx-chat-bubble{ right:16px; }
+}
+
+
 @media (max-width: 720px){
   .nx-links{ display:none; }
   .nx-hero h1{ font-size:34px; }
@@ -366,5 +405,131 @@ footer.nx-foot{ background: var(--navy-deep); color: var(--steel); text-align:ce
     const targetEl = document.getElementById(trigger.getAttribute('data-scroll-target'));
     if(targetEl) targetEl.scrollIntoView({behavior:'smooth'});
   });
+
+  // ============================================================
+  // AI-POWERED CHATBOT WIDGET (Option B)
+  // Frontend calls our OWN same-origin serverless endpoint ("/api/chat"),
+  // never the Anthropic API directly. The real API key lives only in
+  // Vercel's environment variables, inside /api/chat.js -- never here,
+  // never in the browser. This keeps the site's CSP clean too: fetch()
+  // stays same-origin ('self'), so no CSP change is needed for this.
+  // ============================================================
+  const chatMessages = [];
+  const CHAT_SUGGESTIONS = [
+    "What services do you offer?",
+    "Tell me about your experience",
+    "How does the engagement process work?"
+  ];
+
+  function chatAddMsg(text, sender){
+    chatMessages.push({ sender, text });
+    chatRenderTranscript();
+  }
+
+  function chatRenderTranscript(){
+    const bodyEl = document.getElementById('nx-chat-body');
+    if(!bodyEl) return;
+    bodyEl.innerHTML = chatMessages.map(m =>
+      `<div class="nx-msg ${m.sender}">${m.text}</div>`
+    ).join('');
+    bodyEl.scrollTop = bodyEl.scrollHeight;
+  }
+
+  function chatRenderSuggestions(){
+    const wrap = document.getElementById('nx-chat-options');
+    if(!wrap) return;
+    wrap.innerHTML = CHAT_SUGGESTIONS.map((q, i) =>
+      `<button class="nx-chat-opt" data-chat-suggest="${i}">${q}</button>`
+    ).join('');
+  }
+
+  async function chatAskAI(question){
+    const input = document.getElementById('nx-chat-input');
+    const sendBtn = document.getElementById('nx-chat-send');
+    const optsWrap = document.getElementById('nx-chat-options');
+    optsWrap.innerHTML = '';
+
+    chatAddMsg(question, 'user');
+    if(input) input.value = '';
+    if(sendBtn) sendBtn.disabled = true;
+    chatMessages.push({ sender: 'bot typing', text: 'Thinking...' });
+    chatRenderTranscript();
+
+    try{
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: question })
+      });
+      const data = await response.json();
+      chatMessages.pop(); // remove "Thinking..."
+      if(!response.ok){
+        chatAddMsg(data.error || "Sorry, something went wrong. Please try again.", 'bot');
+      } else {
+        chatAddMsg(data.reply, 'bot');
+      }
+    }catch(err){
+      chatMessages.pop();
+      chatAddMsg("Sorry, I couldn't reach the assistant just now. Please try again or use the contact details below.", 'bot');
+      console.error(err);
+    }finally{
+      if(sendBtn) sendBtn.disabled = false;
+    }
+  }
+
+  function mountChatWidget(){
+    const wrap = document.createElement('div');
+    wrap.innerHTML = `
+      <div class="nx-chat-bubble" id="nx-chat-bubble" title="Chat with Nexaro Global">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M4 5h16a1 1 0 011 1v10a1 1 0 01-1 1H9l-4 4v-4H4a1 1 0 01-1-1V6a1 1 0 011-1z" stroke="#D4A94F" stroke-width="1.6" fill="none"/>
+        </svg>
+      </div>
+      <div class="nx-chat-panel" id="nx-chat-panel">
+        <div class="nx-chat-head">
+          <div><div class="title">Nexaro Global Assistant</div><div class="sub">AI-powered \u2014 ask anything</div></div>
+          <button class="nx-chat-close" id="nx-chat-close" aria-label="Close chat">\u00d7</button>
+        </div>
+        <div class="nx-chat-body" id="nx-chat-body"></div>
+        <div class="nx-chat-options" id="nx-chat-options"></div>
+        <div class="nx-chat-input-row">
+          <input type="text" id="nx-chat-input" placeholder="Type a question..." maxlength="500" />
+          <button id="nx-chat-send">Ask</button>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(wrap);
+
+    const bubble = document.getElementById('nx-chat-bubble');
+    const panel = document.getElementById('nx-chat-panel');
+    const closeBtn = document.getElementById('nx-chat-close');
+    const input = document.getElementById('nx-chat-input');
+    const sendBtn = document.getElementById('nx-chat-send');
+
+    bubble.addEventListener('click', function(){
+      panel.classList.toggle('open');
+      if(panel.classList.contains('open') && chatMessages.length === 0){
+        chatAddMsg("Hi! I'm Nexaro Global's AI assistant. Ask me anything about our services, experience, or approach.", 'bot');
+        chatRenderSuggestions();
+      }
+    });
+    closeBtn.addEventListener('click', function(){ panel.classList.remove('open'); });
+
+    sendBtn.addEventListener('click', function(){
+      const q = input.value.trim();
+      if(q) chatAskAI(q);
+    });
+    input.addEventListener('keydown', function(e){
+      if(e.key === 'Enter'){ const q = input.value.trim(); if(q) chatAskAI(q); }
+    });
+    document.getElementById('nx-chat-options').addEventListener('click', function(e){
+      const btn = e.target.closest('[data-chat-suggest]');
+      if(!btn) return;
+      const idx = parseInt(btn.getAttribute('data-chat-suggest'), 10);
+      chatAskAI(CHAT_SUGGESTIONS[idx]);
+    });
+  }
+
+  mountChatWidget();
 })();
 </script>
