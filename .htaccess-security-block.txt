@@ -1,0 +1,39 @@
+# Nexaro Global — per-page security headers (Apache/.htaccess)
+# NOTE: each page has its OWN policy block below — do not merge these into
+# one blanket rule. nexaro-3d-logo.html deliberately has a different,
+# narrower exception (to allow the Three.js CDN) and must NOT inherit
+# X-Frame-Options: DENY, since that would block it being framed even by
+# our own index.html.
+
+<IfModule mod_headers.c>
+  Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+<FilesMatch "^(index\.html)?$">
+  <IfModule mod_headers.c>
+    Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'sha256-VKuIeaWSQjJaiCX7r0Hqu2bmHW7MSUHgHBOjgN8XteI='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; frame-src 'self'; frame-ancestors 'none';"
+    Header always set X-Frame-Options "DENY"
+  </IfModule>
+</FilesMatch>
+
+<FilesMatch "^about\.html$">
+  <IfModule mod_headers.c>
+    Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'sha256-2mnfSCQZUEz9zxcaxRVkazhY46VyvgAf5+Ty/11Di5I='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; frame-ancestors 'none';"
+    Header always set X-Frame-Options "DENY"
+  </IfModule>
+</FilesMatch>
+
+<FilesMatch "^privacy-policy\.html$">
+  <IfModule mod_headers.c>
+    Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'sha256-15eji0SOJSFX92f4FKoEoqWSOI85Rna8jl2kpBVKLv4='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; frame-ancestors 'none';"
+    Header always set X-Frame-Options "DENY"
+  </IfModule>
+</FilesMatch>
+
+<FilesMatch "^nexaro-3d-logo\.html$">
+  <IfModule mod_headers.c>
+    Header always set Content-Security-Policy "default-src 'self'; script-src 'self' https://cdn.jsdelivr.net 'sha256-aug3wrq3p26amBdALgMSQ9d5LWzXGpp12zZWU2kFNWo='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; frame-ancestors 'self';"
+  </IfModule>
+</FilesMatch>

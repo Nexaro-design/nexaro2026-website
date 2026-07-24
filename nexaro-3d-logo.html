@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NEXARO 3D Logo Design</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      font-family: Arial, Helvetica, sans-serif;
+      background:
+        radial-gradient(circle at 50% 35%, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 36%, rgba(238,242,248,1) 72%, rgba(226,231,239,1) 100%);
+    }
+
+    #app {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    canvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+      cursor: grab;
+    }
+
+    canvas:active {
+      cursor: grabbing;
+    }
+
+    .ui {
+      position: fixed;
+      left: 50%;
+      bottom: 18px;
+      transform: translateX(-50%);
+      padding: 9px 16px;
+      border: 1px solid rgba(20, 50, 110, 0.13);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.62);
+      backdrop-filter: blur(10px);
+      color: rgba(12, 34, 85, 0.72);
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      box-shadow: 0 12px 35px rgba(10, 30, 70, 0.08);
+      pointer-events: none;
+      user-select: none;
+      white-space: nowrap;
+    }
+
+    #loader {
+      position: fixed;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      background:
+        radial-gradient(circle at center, rgba(255,255,255,0.85), rgba(244,247,252,0.96));
+      z-index: 10;
+      transition: opacity 650ms ease, visibility 650ms ease;
+    }
+
+    #loader.hidden {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .loader-card {
+      text-align: center;
+      color: #12337c;
+      letter-spacing: 0.18em;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .loader-mark {
+      width: 58px;
+      height: 58px;
+      margin: 0 auto 16px;
+      border-radius: 18px;
+      border: 5px solid #12337c;
+      clip-path: polygon(50% 0%, 94% 25%, 94% 75%, 50% 100%, 6% 75%, 6% 25%);
+      animation: pulseSpin 1.15s ease-in-out infinite alternate;
+      box-shadow: 0 0 25px rgba(18, 51, 124, 0.22);
+    }
+
+    @keyframes pulseSpin {
+      from {
+        transform: rotate(0deg) scale(0.94);
+        opacity: 0.55;
+      }
+      to {
+        transform: rotate(30deg) scale(1.05);
+        opacity: 1;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .ui {
+        bottom: 12px;
+        font-size: 10px;
+        letter-spacing: 0.08em;
+        padding: 8px 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="app"></div>
+
+  <div id="loader">
+    <div class="loader-card">
+      <div class="loader-mark"></div>
+      Building Nexaro 3D
+    </div>
+  </div>
+
+  <div class="ui">Drag to rotate &nbsp;•&nbsp; Click to shine</div>
+
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+      }
+    }
+  </script>
+
+  <script type="module">
+    import * as THREE from 'three';
+    import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+    import { FontLoader } from 'three/addons/loaders/FontLoader.js';
+    import { TextGeometry } from 'three/addons/geometries/TextGeometry.js';
+    import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+
+    const container = document.getElementById('app');
+    const loaderEl = document.getElementById('loader');
+
+    const scene = new THREE.Scene();
+
+    const camera = new THREE.OrthographicCamera(-3, 3, 3, -3, 0.1, 100);
+    camera.position.set(0, 0, 8.2);
+
+    const renderer = new THREE.WebGLRenderer({
+      antialias: true,
+      alpha: true,
+      powerPreference: 'high-performance'
+    });
+
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.05;
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    container.appendChild(renderer.domElement);
+
+    const pmrem = new THREE.PMREMGenerator(renderer);
+    scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.045).texture;
+
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.075;
+    controls.enablePan = false;
+    controls.minZoom = 0.75;
+    controls.maxZoom = 1.8;
+    controls.rotateSpeed = 0.58;
+    controls.zoomSpeed = 0.7;
+
+    const logoGroup = new THREE.Group();
+    scene.add(logoGroup);
+
+    const badgeGroup = new THREE.Group();
+    badgeGroup.position.y = 0.92;
+    logoGroup.add(badgeGroup);
+
+    const textGroup = new THREE.Group();
+    logoGroup.add(textGroup);
+
+    const blueMat = new THREE.MeshPhysicalMaterial({
+      color: new THREE.Color('#123582'),
+      metalness: 0.72,
+      roughness: 0.18,
+      clearcoat: 1,
+      clearcoatRoughness: 0.12,
+      envMapIntensity: 1.35
+    });
+
+    const deepBlueMat = new THREE.MeshPhysicalMaterial({
+      color: new THREE.Color('#071d58'),
+      metalness: 0.8,
+      roughness: 0.2,
+      clearcoat: 1,
+      envMapIntensity: 1.1
+    });
+
+    const silverMat = new THREE.MeshPhysicalMaterial({
+      color: new THREE.Color('#d9dce1'),
+      metalness: 1,
+      roughness: 0.13,
+      clearcoat: 1,
+      envMapIntensity: 1.7
+    });
+
+    const darkChromeMat = new THREE.MeshPhysicalMaterial({
+      color: new THREE.Color('#2e3034'),
+      metalness: 1,
+      roughness: 0.16,
+      clearcoat: 0.9,
+      envMapIntensity: 1.5
+    });
+
+    const brightChromeMat = new THREE.MeshPhysicalMaterial({
+      color: new THREE.Color('#ffffff'),
+      metalness: 0.92,
+      roughness: 0.09,
+      clearcoat: 1,
+      envMapIntensity: 2
+    });
+
+    const textBlueMat = new THREE.MeshPhysicalMaterial({
+      color: new THREE.Color('#123582'),
+      metalness: 0.58,
+      roughness: 0.2,
+      clearcoat: 0.82,
+      envMapIntensity: 1.4
+    });
+
+    const textSilverMat = new THREE.MeshPhysicalMaterial({
+      color: new THREE.Color('#c9cbd0'),
+      metalness: 1,
+      roughness: 0.18,
+      clearcoat: 0.9,
+      envMapIntensity: 1.6
+    });
+
+    function hexPoints(radius, reverse = false) {
+      const pts = [];
+      for (let i = 0; i < 6; i++) {
+        const a = Math.PI / 2 + i * Math.PI * 2 / 6;
+        pts.push(new THREE.Vector2(Math.cos(a) * radius, Math.sin(a) * radius));
+      }
+      return reverse ? pts.reverse() : pts;
+    }
+
+    function makeShapeFromPoints(points) {
+      const shape = new THREE.Shape();
+      shape.moveTo(points[0].x, points[0].y);
+      for (let i = 1; i < points.length; i++) shape.lineTo(points[i].x, points[i].y);
+      shape.closePath();
+      return shape;
+    }
+
+    function createHexRing(outerRadius, innerRadius, depth, material, bevelSize = 0.045) {
+      const shape = makeShapeFromPoints(hexPoints(outerRadius));
+      const hole = new THREE.Path();
+      const inner = hexPoints(innerRadius, true);
+      hole.moveTo(inner[0].x, inner[0].y);
+      for (let i = 1; i < inner.length; i++) hole.lineTo(inner[i].x, inner[i].y);
+      hole.closePath();
+      shape.holes.push(hole);
+
+      const geometry = new THREE.ExtrudeGeometry(shape, {
+        depth,
+        bevelEnabled: true,
+        bevelThickness: bevelSize,
+        bevelSize,
+        bevelSegments: 4,
+        steps: 1
+      });
+
+      geometry.center();
+
+      const mesh = new THREE.Mesh(geometry, material);
+      mesh.castShadow = true;
+      mesh.receiveShadow = true;
+      return mesh;
+    }
+
+    function createHexPlate(radius, depth, material, bevelSize = 0.025) {
+      const shape = makeShapeFromPoints(hexPoints(radius));
+      const geometry = new THREE.ExtrudeGeometry(shape, {
+        depth,
+        bevelEnabled: true,
+        bevelThickness: bevelSize,
+        bevelSize,
+        bevelSegments: 3
+      });
+
+      geometry.center();
+
+      const mesh = new THREE.Mesh(geometry, material);
+      mesh.castShadow = true;
+      mesh.receiveShadow = true;
+      return mesh;
+    }
+
+    const backShadowPlate = createHexPlate(1.74, 0.09, deepBlueMat, 0.025);
+    backShadowPlate.position.z = -0.14;
+    backShadowPlate.scale.set(1.015, 1.015, 1);
+    badgeGroup.add(backShadowPlate);
+
+    const outerBlue = createHexRing(1.68, 1.28, 0.24, blueMat, 0.055);
+    outerBlue.position.z = 0.03;
+    badgeGroup.add(outerBlue);
+
+    const innerChrome = createHexRing(1.31, 1.08, 0.18, brightChromeMat, 0.035);
+    innerChrome.position.z = 0.16;
+    badgeGroup.add(innerChrome);
+
+    const innerDark = createHexRing(1.09, 0.96, 0.12, darkChromeMat, 0.024);
+    innerDark.position.z = 0.2;
+    badgeGroup.add(innerDark);
+
+    const thinBlueInset = createHexRing(1.52, 1.45, 0.055, deepBlueMat, 0.012);
+    thinBlueInset.position.z = 0.25;
+    badgeGroup.add(thinBlueInset);
+
+    function createHexLine(radius, z, color, opacity) {
+      const pts = hexPoints(radius);
+      pts.push(pts[0].clone());
+      const vertices = [];
+      pts.forEach(p => vertices.push(p.x, p.y, z));
+      const geo = new THREE.BufferGeometry();
+      geo.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
+      const mat = new THREE.LineBasicMaterial({
+        color,
+        transparent: true,
+        opacity
+      });
+      return new THREE.Line(geo, mat);
+    }
+
+    badgeGroup.add(createHexLine(1.72, 0.32, 0x09235f, 0.8));
+    badgeGroup.add(createHexLine(1.23, 0.33, 0xffffff, 0.74));
+
+    function cylinderBetween(a, b, radius, material) {
+      const start = new THREE.Vector3(a.x, a.y, a.z);
+      const end = new THREE.Vector3(b.x, b.y, b.z);
+      const mid = new THREE.Vector3().addVectors(start, end).multiplyScalar(0.5);
+      const dir = new THREE.Vector3().subVectors(end, start);
+      const len = dir.length();
+
+      const geometry = new THREE.CylinderGeometry(radius, radius, len, 14, 1, false);
+      const mesh = new THREE.Mesh(geometry, material);
+      mesh.position.copy(mid);
+      mesh.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), dir.normalize());
+      mesh.castShadow = true;
+      mesh.receiveShadow = true;
+      return mesh;
+    }
+
+    const gemGroup = new THREE.Group();
+    gemGroup.position.z = 0.42;
+    gemGroup.rotation.set(-0.04, 0.1, Math.PI / 10);
+    badgeGroup.add(gemGroup);
+
+    function createFacetedGem() {
+      const geo = new THREE.IcosahedronGeometry(0.94, 0).toNonIndexed();
+
+      const colors = [];
+      const c = new THREE.Color();
+      const position = geo.attributes.position;
+
+      for (let i = 0; i < position.count; i += 3) {
+        const shade = 0.68 + Math.random() * 0.28;
+        const blueTint = 0.02 + Math.random() * 0.05;
+        c.setRGB(shade, shade + blueTint, Math.min(1, shade + 0.09));
+        for (let j = 0; j < 3; j++) colors.push(c.r, c.g, c.b);
+      }
+
+      geo.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+      geo.computeVertexNormals();
+
+      const material = new THREE.MeshPhysicalMaterial({
+        vertexColors: true,
+        metalness: 0.28,
+        roughness: 0.08,
+        clearcoat: 1,
+        clearcoatRoughness: 0.04,
+        transparent: true,
+        opacity: 0.78,
+        transmission: 0.18,
+        thickness: 0.65,
+        ior: 1.55,
+        flatShading: true,
+        side: THREE.DoubleSide,
+        envMapIntensity: 2.2
+      });
+
+      const mesh = new THREE.Mesh(geo, material);
+      mesh.castShadow = true;
+      mesh.receiveShadow = true;
+      gemGroup.add(mesh);
+
+      const edgesGeo = new THREE.EdgesGeometry(geo, 1);
+      const arr = edgesGeo.attributes.position.array;
+
+      for (let i = 0; i < arr.length; i += 6) {
+        const a = new THREE.Vector3(arr[i], arr[i + 1], arr[i + 2]);
+        const b = new THREE.Vector3(arr[i + 3], arr[i + 4], arr[i + 5]);
+        gemGroup.add(cylinderBetween(a, b, 0.018, brightChromeMat));
+      }
+
+      const vertexMap = new Map();
+      for (let i = 0; i < position.count; i++) {
+        const v = new THREE.Vector3().fromBufferAttribute(position, i);
+        const key = `${v.x.toFixed(3)}_${v.y.toFixed(3)}_${v.z.toFixed(3)}`;
+        if (!vertexMap.has(key)) vertexMap.set(key, v);
+      }
+
+      const nodeGeo = new THREE.SphereGeometry(0.04, 16, 10);
+      vertexMap.forEach(v => {
+        const node = new THREE.Mesh(nodeGeo, brightChromeMat);
+        node.position.copy(v);
+        node.castShadow = true;
+        gemGroup.add(node);
+      });
+
+      const innerGeo = new THREE.OctahedronGeometry(0.48, 0);
+      const innerMat = new THREE.MeshPhysicalMaterial({
+        color: new THREE.Color('#f4f6f9'),
+        metalness: 0.15,
+        roughness: 0.05,
+        transparent: true,
+        opacity: 0.35,
+        clearcoat: 1,
+        envMapIntensity: 1.8,
+        flatShading: true
+      });
+      const inner = new THREE.Mesh(innerGeo, innerMat);
+      inner.rotation.set(0.35, 0.25, 0.15);
+      gemGroup.add(inner);
+    }
+
+    createFacetedGem();
+
+    const shadowPlane = new THREE.Mesh(
+      new THREE.PlaneGeometry(6.2, 5.5),
+      new THREE.ShadowMaterial({
+        color: 0x10235c,
+        transparent: true,
+        opacity: 0.13
+      })
+    );
+    shadowPlane.position.z = -0.72;
+    shadowPlane.receiveShadow = true;
+    scene.add(shadowPlane);
+
+    const ambient = new THREE.AmbientLight(0xffffff, 1.1);
+    scene.add(ambient);
+
+    const keyLight = new THREE.DirectionalLight(0xffffff, 2.55);
+    keyLight.position.set(3.2, 4.1, 6.2);
+    keyLight.castShadow = true;
+    keyLight.shadow.mapSize.set(2048, 2048);
+    keyLight.shadow.camera.left = -4;
+    keyLight.shadow.camera.right = 4;
+    keyLight.shadow.camera.top = 4;
+    keyLight.shadow.camera.bottom = -4;
+    keyLight.shadow.camera.near = 0.1;
+    keyLight.shadow.camera.far = 14;
+    scene.add(keyLight);
+
+    const rimLight = new THREE.DirectionalLight(0x6f9cff, 1.2);
+    rimLight.position.set(-4.2, 1.8, 4.6);
+    scene.add(rimLight);
+
+    const sparkleLight = new THREE.PointLight(0xffffff, 1.4, 8);
+    sparkleLight.position.set(0, 1.4, 3.2);
+    scene.add(sparkleLight);
+
+    const blueGlow = new THREE.PointLight(0x2a5dff, 0.95, 7);
+    blueGlow.position.set(-1.7, 0.7, 2.6);
+    scene.add(blueGlow);
+
+    const particleCount = 180;
+    const particlePositions = [];
+    const particleColors = [];
+    const pc = new THREE.Color();
+
+    for (let i = 0; i < particleCount; i++) {
+      const angle = Math.random() * Math.PI * 2;
+      const radius = 1.9 + Math.random() * 1.65;
+      const y = -0.6 + Math.random() * 3.1;
+      const z = -0.45 + Math.random() * 1.1;
+
+      particlePositions.push(Math.cos(angle) * radius, y, Math.sin(angle) * radius * 0.16 + z);
+      pc.set(Math.random() > 0.45 ? '#ffffff' : '#2452c7');
+      particleColors.push(pc.r, pc.g, pc.b);
+    }
+
+    const particlesGeo = new THREE.BufferGeometry();
+    particlesGeo.setAttribute('position', new THREE.Float32BufferAttribute(particlePositions, 3));
+    particlesGeo.setAttribute('color', new THREE.Float32BufferAttribute(particleColors, 3));
+
+    const particlesMat = new THREE.PointsMaterial({
+      size: 0.035,
+      vertexColors: true,
+      transparent: true,
+      opacity: 0.48,
+      depthWrite: false,
+      blending: THREE.AdditiveBlending
+    });
+
+    const particles = new THREE.Points(particlesGeo, particlesMat);
+    logoGroup.add(particles);
+
+    function createCenteredText(font, label, size, height, material, y, bevel = 0.012) {
+      const geometry = new TextGeometry(label, {
+        font,
+        size,
+        height,
+        curveSegments: 8,
+        bevelEnabled: true,
+        bevelThickness: bevel,
+        bevelSize: bevel,
+        bevelSegments: 3
+      });
+
+      geometry.computeBoundingBox();
+      const box = geometry.boundingBox;
+      const xOffset = -0.5 * (box.max.x - box.min.x);
+      const yOffset = -0.5 * (box.max.y - box.min.y);
+      geometry.translate(xOffset, yOffset, 0);
+
+      const mesh = new THREE.Mesh(geometry, material);
+      mesh.position.set(0, y, 0.22);
+      mesh.castShadow = true;
+      mesh.receiveShadow = true;
+      return mesh;
+    }
+
+    function createText(font) {
+      const nexaro = createCenteredText(font, 'NEXARO', 0.54, 0.12, textBlueMat, -1.48, 0.013);
+      nexaro.scale.x = 1.08;
+      textGroup.add(nexaro);
+
+      const global = createCenteredText(font, 'G L O B A L   P T Y   L T D', 0.215, 0.075, textSilverMat, -1.94, 0.008);
+      global.scale.x = 1.08;
+      textGroup.add(global);
+
+      const underline = new THREE.Mesh(
+        new THREE.BoxGeometry(3.28, 0.045, 0.07),
+        textSilverMat
+      );
+      underline.position.set(0, -2.26, 0.22);
+      underline.castShadow = true;
+      underline.receiveShadow = true;
+      textGroup.add(underline);
+
+      const underlineDark = new THREE.Mesh(
+        new THREE.BoxGeometry(3.33, 0.018, 0.04),
+        darkChromeMat
+      );
+      underlineDark.position.set(0, -2.31, 0.14);
+      textGroup.add(underlineDark);
+
+      setTimeout(() => loaderEl.classList.add('hidden'), 350);
+    }
+
+    const fontLoader = new FontLoader();
+    fontLoader.load(
+      'https://cdn.jsdelivr.net/npm/three@0.160.0/examples/fonts/helvetiker_bold.typeface.json',
+      createText,
+      undefined,
+      () => loaderEl.classList.add('hidden')
+    );
+
+    let targetRotX = 0;
+    let targetRotY = 0;
+    let burst = 0;
+    let spinBoost = 0;
+    const clock = new THREE.Clock();
+
+    window.addEventListener('pointermove', (event) => {
+      const nx = (event.clientX / window.innerWidth) * 2 - 1;
+      const ny = (event.clientY / window.innerHeight) * 2 - 1;
+      targetRotY = nx * 0.18;
+      targetRotX = -ny * 0.105;
+    }, { passive: true });
+
+    window.addEventListener('pointerdown', () => {
+      burst = 1;
+      spinBoost = 1;
+      sparkleLight.intensity = 3.2;
+    });
+
+    window.addEventListener('dblclick', () => {
+      controls.reset();
+      targetRotX = 0;
+      targetRotY = 0;
+    });
+
+    function resize() {
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+      const aspect = w / h;
+      const frustum = aspect < 0.8 ? 6.9 : 5.65;
+
+      camera.left = -frustum * aspect / 2;
+      camera.right = frustum * aspect / 2;
+      camera.top = frustum / 2;
+      camera.bottom = -frustum / 2;
+      camera.updateProjectionMatrix();
+
+      renderer.setSize(w, h);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    }
+
+    window.addEventListener('resize', resize);
+    resize();
+
+    function animate() {
+      requestAnimationFrame(animate);
+
+      const t = clock.getElapsedTime();
+
+      controls.update();
+
+      logoGroup.rotation.x += (targetRotX - logoGroup.rotation.x) * 0.055;
+      logoGroup.rotation.y += (targetRotY + Math.sin(t * 0.45) * 0.045 - logoGroup.rotation.y) * 0.055;
+
+      badgeGroup.rotation.z = Math.sin(t * 0.42) * 0.018;
+      badgeGroup.position.y = 0.92 + Math.sin(t * 1.15) * 0.022;
+
+      gemGroup.rotation.y += 0.0075 + spinBoost * 0.06;
+      gemGroup.rotation.x = -0.04 + Math.sin(t * 1.35) * 0.065;
+      gemGroup.rotation.z += 0.0025 + spinBoost * 0.035;
+
+      particles.rotation.z = t * 0.035;
+      particles.rotation.y = Math.sin(t * 0.25) * 0.06;
+
+      burst *= 0.94;
+      spinBoost *= 0.91;
+
+      particles.scale.setScalar(1 + burst * 0.18);
+      particlesMat.opacity = 0.38 + burst * 0.58;
+
+      sparkleLight.intensity += ((1.35 + burst * 2.4) - sparkleLight.intensity) * 0.08;
+      sparkleLight.position.x = Math.sin(t * 1.7) * 1.25;
+      sparkleLight.position.y = 1.25 + Math.cos(t * 1.1) * 0.55;
+
+      blueGlow.position.x = -1.5 + Math.sin(t * 0.9) * 0.75;
+      blueGlow.position.y = 0.5 + Math.cos(t * 1.2) * 0.45;
+
+      renderer.render(scene, camera);
+    }
+
+    animate();
+  </script>
+</body>
+</html>
