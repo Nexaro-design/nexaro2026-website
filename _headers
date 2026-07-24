@@ -1,20 +1,20 @@
 /index.html
   Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'sha256-VKuIeaWSQjJaiCX7r0Hqu2bmHW7MSUHgHBOjgN8XteI='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; frame-src 'self'; frame-ancestors 'none';
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'sha256-fJrkovDGmWaZKZ4RsdyT/Cfc+QXm6fnAcVV/oMU03xY='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; frame-src 'self'; frame-ancestors 'none';
   X-Content-Type-Options: nosniff
   X-Frame-Options: DENY
   Referrer-Policy: strict-origin-when-cross-origin
 
 /
   Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'sha256-VKuIeaWSQjJaiCX7r0Hqu2bmHW7MSUHgHBOjgN8XteI='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; frame-src 'self'; frame-ancestors 'none';
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'sha256-fJrkovDGmWaZKZ4RsdyT/Cfc+QXm6fnAcVV/oMU03xY='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; frame-src 'self'; frame-ancestors 'none';
   X-Content-Type-Options: nosniff
   X-Frame-Options: DENY
   Referrer-Policy: strict-origin-when-cross-origin
 
 /about.html
   Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'sha256-2mnfSCQZUEz9zxcaxRVkazhY46VyvgAf5+Ty/11Di5I='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; frame-ancestors 'none';
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'sha256-M382gQuSO9qCABPbIM+C3QVCMz2aSxSzDeHv0TtW80E='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; frame-src 'self'; frame-ancestors 'none';
   X-Content-Type-Options: nosniff
   X-Frame-Options: DENY
   Referrer-Policy: strict-origin-when-cross-origin

@@ -1,9 +1,8 @@
 # Nexaro Global — per-page security headers (Apache/.htaccess)
-# NOTE: each page has its OWN policy block below — do not merge these into
-# one blanket rule. nexaro-3d-logo.html deliberately has a different,
-# narrower exception (to allow the Three.js CDN) and must NOT inherit
-# X-Frame-Options: DENY, since that would block it being framed even by
-# our own index.html.
+# Each page has its OWN policy block — do not merge into one blanket rule.
+# nexaro-3d-logo.html deliberately omits X-Frame-Options (relies on CSP
+# frame-ancestors 'self' instead) since it's framed by both index.html
+# and about.html.
 
 <IfModule mod_headers.c>
   Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
@@ -13,14 +12,14 @@
 
 <FilesMatch "^(index\.html)?$">
   <IfModule mod_headers.c>
-    Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'sha256-VKuIeaWSQjJaiCX7r0Hqu2bmHW7MSUHgHBOjgN8XteI='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; frame-src 'self'; frame-ancestors 'none';"
+    Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'sha256-fJrkovDGmWaZKZ4RsdyT/Cfc+QXm6fnAcVV/oMU03xY='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; frame-src 'self'; frame-ancestors 'none';"
     Header always set X-Frame-Options "DENY"
   </IfModule>
 </FilesMatch>
 
 <FilesMatch "^about\.html$">
   <IfModule mod_headers.c>
-    Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'sha256-2mnfSCQZUEz9zxcaxRVkazhY46VyvgAf5+Ty/11Di5I='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; frame-ancestors 'none';"
+    Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'sha256-M382gQuSO9qCABPbIM+C3QVCMz2aSxSzDeHv0TtW80E='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; frame-src 'self'; frame-ancestors 'none';"
     Header always set X-Frame-Options "DENY"
   </IfModule>
 </FilesMatch>
