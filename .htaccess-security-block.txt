@@ -19,7 +19,7 @@
 
 <FilesMatch "^about\.html$">
   <IfModule mod_headers.c>
-    Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'sha256-M382gQuSO9qCABPbIM+C3QVCMz2aSxSzDeHv0TtW80E='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; frame-src 'self'; frame-ancestors 'none';"
+    Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'sha256-p7rkcVSDu0METqpPlTw5/MTEOtPjofdG9Si0uXxvKWU='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; frame-src 'self'; frame-ancestors 'none';"
     Header always set X-Frame-Options "DENY"
   </IfModule>
 </FilesMatch>
