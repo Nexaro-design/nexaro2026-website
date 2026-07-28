@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nexaro Global v4.2.06 Build Manual & Deployment Guide</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  color: #2c3e50;
+  line-height: 1.6;
+  padding: 20px;
+}
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+  overflow: hidden;
+}
+.header {
+  background: linear-gradient(135deg, #101B33 0%, #0A1226 100%);
+  color: #fff;
+  padding: 40px;
+  text-align: center;
+}
+.header h1 {
+  font-size: 32px;
+  margin-bottom: 8px;
+  font-weight: 700;
+}
+.header .subtitle {
+  font-size: 14px;
+  color: #D4A94F;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.header .version-tag {
+  display: inline-block;
+  background: #B8862E;
+  color: #fff;
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  margin-top: 12px;
+}
+.content {
+  padding: 40px;
+}
+.section {
+  margin-bottom: 40px;
+}
+.section-title {
+  font-size: 24px;
+  color: #101B33;
+  font-weight: 700;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 3px solid #B8862E;
+}
+.subsection-title {
+  font-size: 18px;
+  color: #0A1226;
+  font-weight: 600;
+  margin-top: 20px;
+  margin-bottom: 12px;
+}
+p, li {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 12px;
+  line-height: 1.7;
+}
+ul, ol {
+  margin-left: 24px;
+  margin-bottom: 16px;
+}
+li {
+  margin-bottom: 8px;
+}
+.code-block {
+  background: #f4f6f9;
+  border-left: 4px solid #B8862E;
+  padding: 16px;
+  border-radius: 6px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  overflow-x: auto;
+  margin: 16px 0;
+  color: #101B33;
+}
+.highlight {
+  background: #fff3cd;
+  padding: 2px 6px;
+  border-radius: 3px;
+  color: #856404;
+}
+.feature-box {
+  background: #f0f4f8;
+  border: 1px solid #D4A94F;
+  border-radius: 8px;
+  padding: 16px;
+  margin: 16px 0;
+}
+.feature-box strong {
+  color: #101B33;
+}
+.changelog {
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 20px;
+  margin: 16px 0;
+}
+.changelog-item {
+  padding: 12px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+.changelog-item:last-child {
+  border-bottom: none;
+}
+.changelog-item strong {
+  color: #101B33;
+}
+.file-list {
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 16px;
+  font-family: monospace;
+  font-size: 13px;
+  margin: 16px 0;
+}
+.file-list div {
+  padding: 6px 0;
+  color: #333;
+}
+.footer {
+  background: #101B33;
+  color: #8A96A8;
+  padding: 20px 40px;
+  text-align: center;
+  font-size: 12px;
+}
+.checkmark { color: #1F5C4B; font-weight: 700; }
+.warning { color: #a1691f; font-weight: 700; }
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 16px 0;
+}
+th, td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #e0e0e0;
+  font-size: 13px;
+}
+th {
+  background: #f4f6f9;
+  color: #101B33;
+  font-weight: 600;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="header">
+    <h1>Nexaro Global Website</h1>
+    <div class="subtitle">Build Manual & Deployment Guide</div>
+    <div class="version-tag">v4.2.06 — July 28, 2026</div>
+  </div>
+
+  <div class="content">
+
+    <!-- OVERVIEW SECTION -->
+    <div class="section">
+      <h2 class="section-title">1. Overview & Architecture</h2>
+      <p>Nexaro Global website is a <span class="highlight">multi-page, responsive application</span> built with semantic HTML, CSS Grid/Flexbox, and modern web standards. Version 4.2.06 introduces unified navigation across all pages, mobile-responsive improvements, and streamlined information architecture.</p>
+      
+      <div class="feature-box">
+        <strong>Core Structure:</strong>
+        <ul style="margin-top: 8px;">
+          <li><strong>5 Main Pages:</strong> Home (index.html), About, Services, Approach, Clients</li>
+          <li><strong>Support Pages:</strong> Privacy Policy, 3D Logo (embedded iframe)</li>
+          <li><strong>Security:</strong> CSP headers, no unsafe inline scripts, CORS restrictions</li>
+          <li><strong>Responsive:</strong> Desktop, tablet (768px), mobile (640px) optimized</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- VERSION CHANGELOG -->
+    <div class="section">
+      <h2 class="section-title">2. Version History: v4.2.06</h2>
+      
+      <div class="changelog">
+        <div class="changelog-item">
+          <strong><span class="checkmark">✓ MAJOR:</span> Unified Navigation System</strong>
+          <p>All 5 main pages (index, about, services, approach, clients) now feature identical navigation bar with:</p>
+          <ul>
+            <li>Brand logo top-left (links to home)</li>
+            <li>Tab links: Services, About, Approach, Clients</li>
+            <li>CTA button: Home/Contact</li>
+            <li>Same styling, spacing, and behavior across all pages</li>
+          </ul>
+        </div>
+
+        <div class="changelog-item">
+          <strong><span class="checkmark">✓ FIXED:</span> Mobile Responsive Navigation</strong>
+          <p>Mobile version now displays latest changes consistently:</p>
+          <ul>
+            <li><strong>Tablets (768px breakpoint):</strong> Nav wraps intelligently, scaled fonts, adjusted spacing</li>
+            <li><strong>Mobile (640px breakpoint):</strong> Vertical stack layout, full-width buttons, touch-friendly padding</li>
+            <li>Logo remains clickable and centered on mobile</li>
+            <li>All navigation tabs remain accessible and readable</li>
+          </ul>
+        </div>
+
+        <div class="changelog-item">
+          <strong><span class="checkmark">✓ PRESERVED:</span> All Original Content</strong>
+          <p>No content was rewritten or restructured—only layout and navigation styling updated:</p>
+          <ul>
+            <li>About page: Founder story, mission, 3D logo, acknowledgement</li>
+            <li>Services: 4-card service grid with descriptions</li>
+            <li>Approach: 7-step process timeline with connectors</li>
+            <li>Clients: Client testimonials and case study overview</li>
+            <li>Home: Hero, stats bar, Why Choose Us, contact form</li>
+          </ul>
+        </div>
+
+        <div class="changelog-item">
+          <strong><span class="checkmark">✓ SECURITY:</span> CSP & Headers Updated</strong>
+          <p>Security headers (_headers, .htaccess) remain in place and validated:</p>
+          <ul>
+            <li>Content-Security-Policy: Restricted to self + cdn.jsdelivr.net (3D logo only)</li>
+            <li>X-Frame-Options: SAMEORIGIN (allows 3D logo iframe)</li>
+            <li>All inline styles converted to CSS classes where possible</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- FILE MANIFEST -->
+    <div class="section">
+      <h2 class="section-title">3. File Manifest & Deployment</h2>
+      
+      <table>
+        <tr>
+          <th>File Name</th>
+          <th>Type</th>
+          <th>Purpose</th>
+          <th>Deploy As</th>
+        </tr>
+        <tr>
+          <td>index.html</td>
+          <td>HTML</td>
+          <td>Home page, hero, stats, services CTA</td>
+          <td>index.html</td>
+        </tr>
+        <tr>
+          <td>about.html</td>
+          <td>HTML</td>
+          <td>Founder story, 3D logo, mission</td>
+          <td>about.html</td>
+        </tr>
+        <tr>
+          <td>services.html</td>
+          <td>HTML</td>
+          <td>Service cards and descriptions</td>
+          <td>services.html</td>
+        </tr>
+        <tr>
+          <td>approach.html</td>
+          <td>HTML</td>
+          <td>7-step delivery approach timeline</td>
+          <td>approach.html</td>
+        </tr>
+        <tr>
+          <td>clients.html</td>
+          <td>HTML</td>
+          <td>Client testimonials and case studies</td>
+          <td>clients.html</td>
+        </tr>
+        <tr>
+          <td>nexaro-3d-logo.html</td>
+          <td>HTML (iframe)</td>
+          <td>Three.js 3D logo (embedded in about.html)</td>
+          <td>nexaro-3d-logo.html</td>
+        </tr>
+        <tr>
+          <td>privacy-policy.html</td>
+          <td>HTML</td>
+          <td>Legal privacy & cookies policy</td>
+          <td>privacy-policy.html</td>
+        </tr>
+        <tr>
+          <td>_headers</td>
+          <td>Config</td>
+          <td>Vercel/Netlify security headers</td>
+          <td>_headers (Vercel/Netlify) or .htaccess (Apache)</td>
+        </tr>
+        <tr>
+          <td>htaccess-security-block.txt</td>
+          <td>Config</td>
+          <td>Apache security rules (rename to .htaccess)</td>
+          <td>.htaccess (Apache only)</td>
+        </tr>
+      </table>
+
+      <div class="subsection-title">Deployment Instructions:</div>
+      <div class="feature-box">
+        <strong><span class="checkmark">✓ Vercel / Netlify (Recommended):</span></strong>
+        <div class="code-block">
+1. Copy all .html files to root
+2. Copy nexaro-3d-logo.html to root
+3. Copy _headers to root (Vercel/Netlify auto-reads this)
+4. Deploy via git push or drag-drop
+        </div>
+      </div>
+
+      <div class="feature-box">
+        <strong><span class="warning">⚠ Apache Server:</span></strong>
+        <div class="code-block">
+1. Copy all .html files to public_html or web root
+2. Rename htaccess-security-block.txt to .htaccess
+3. Place .htaccess in web root
+4. Verify mod_rewrite is enabled in Apache config
+        </div>
+      </div>
+    </div>
+
+    <!-- NAVIGATION STRUCTURE -->
+    <div class="section">
+      <h2 class="section-title">4. Navigation Structure (v4.2.06)</h2>
+      
+      <p><strong>All Pages Share Identical Nav Bar:</strong></p>
+      <div class="code-block">
+[Logo] NEXARO GLOBAL        [Services] [About] [Approach] [Clients] [Home]
+└─ Clicks to index.html         │        │         │         │        │
+                                 └─────────────────────────────────────┘
+                            All link to their respective .html files
+      </div>
+
+      <div class="feature-box">
+        <strong>Navigation Behavior:</strong>
+        <ul>
+          <li><strong>Logo (top-left):</strong> Always links to index.html (Home)</li>
+          <li><strong>Services tab:</strong> Links to services.html</li>
+          <li><strong>About tab:</strong> Links to about.html (with founder story + 3D logo)</li>
+          <li><strong>Approach tab:</strong> Links to approach.html (7-step delivery process)</li>
+          <li><strong>Clients tab:</strong> Links to clients.html (testimonials & case studies)</li>
+          <li><strong>Home button (top-right):</strong> Links back to index.html</li>
+        </ul>
+      </div>
+
+      <div class="subsection-title">Responsive Breakpoints:</div>
+      <ul>
+        <li><strong>Desktop (> 1024px):</strong> Full horizontal nav, all elements visible</li>
+        <li><strong>Tablet (768px—1024px):</strong> Nav wraps intelligently, smaller fonts, compact spacing</li>
+        <li><strong>Mobile (≤ 640px):</strong> Vertical stack, full-width buttons, touch-safe tap targets</li>
+      </ul>
+    </div>
+
+    <!-- CONTENT SECTIONS -->
+    <div class="section">
+      <h2 class="section-title">5. Page-by-Page Content Guide</h2>
+
+      <div class="subsection-title">index.html (Home)</div>
+      <ul>
+        <li>Hero section: Brand tagline + CTA buttons</li>
+        <li>Stats bar: Years experience, clients served, projects delivered</li>
+        <li>Why Choose Us: Core value propositions</li>
+        <li>Contact form: Lead capture (JavaScript-driven)</li>
+        <li>Footer with links to Privacy Policy</li>
+      </ul>
+
+      <div class="subsection-title">about.html</div>
+      <ul>
+        <li>Founder story: Lokesh Kumar Upadhyay background (20+ years in fintech)</li>
+        <li>3D Logo: Embedded Three.js iframe (nexaro-3d-logo.html)</li>
+        <li>Company mission: Delivery-first transformation advisory</li>
+        <li>Acknowledgement of Country: Aboriginal & Torres Strait Islander flags</li>
+        <li>Contact & footer links</li>
+      </ul>
+
+      <div class="subsection-title">services.html</div>
+      <ul>
+        <li>4 service cards in grid layout:</li>
+        <li style="margin-left: 40px;">Digital Transformation Advisory</li>
+        <li style="margin-left: 40px;">Cloud & Payments Modernisation</li>
+        <li style="margin-left: 40px;">IT Delivery Leadership</li>
+        <li style="margin-left: 40px;">Business Case & Governance</li>
+      </ul>
+
+      <div class="subsection-title">approach.html</div>
+      <ul>
+        <li>7-step delivery process timeline</li>
+        <li>Each step includes title, description, and visual connector</li>
+        <li>Mobile-friendly vertical layout</li>
+      </ul>
+
+      <div class="subsection-title">clients.html</div>
+      <ul>
+        <li>Client testimonials</li>
+        <li>Case study highlights</li>
+        <li>Industry & sector expertise</li>
+      </ul>
+    </div>
+
+    <!-- TECHNICAL DETAILS -->
+    <div class="section">
+      <h2 class="section-title">6. Technical Details & Customization</h2>
+
+      <div class="subsection-title">CSS Variables (Design Tokens):</div>
+      <div class="code-block">
+--navy:       #101B33      (Primary dark)
+--navy-deep:  #0A1226      (Darker variant)
+--steel:      #8A96A8      (Secondary neutral)
+--steel-light:#C6CCD6      (Light neutral)
+--gold:       #B8862E      (Accent color)
+--gold-light: #D4A94F      (Light accent)
+--ivory:      #FAF8F3      (Background)
+--ink:        #141821      (Text dark)
+      </div>
+
+      <div class="subsection-title">Typography:</div>
+      <ul>
+        <li><strong>Display font:</strong> Space Grotesk (headings)</li>
+        <li><strong>Body font:</strong> Inter (paragraphs, UI text)</li>
+        <li><strong>Monospace font:</strong> JetBrains Mono (code, labels)</li>
+      </ul>
+
+      <div class="subsection-title">Browser Support:</div>
+      <ul>
+        <li>Chrome/Edge (latest 2 versions) ✓</li>
+        <li>Firefox (latest 2 versions) ✓</li>
+        <li>Safari 13+ ✓</li>
+        <li>Mobile browsers (iOS Safari, Chrome Android) ✓</li>
+      </ul>
+    </div>
+
+    <!-- COMMON EDITS -->
+    <div class="section">
+      <h2 class="section-title">7. Common Customizations</h2>
+
+      <div class="subsection-title">Update Company Name:</div>
+      <p>Search & replace in all .html files:</p>
+      <div class="code-block">
+Find:    "NEXARO GLOBAL"
+Replace: "[Your Company]"
+
+Also update:
+- &lt;title&gt; tags
+- Meta descriptions
+- Schema.org @type and name
+      </div>
+
+      <div class="subsection-title">Change Colors:</div>
+      <p>Modify CSS variables at top of each page's &lt;style&gt; block:</p>
+      <div class="code-block">
+#nexaro-root {
+  --navy: #NEW_COLOR;
+  --gold: #NEW_ACCENT;
+  ...
+}
+      </div>
+
+      <div class="subsection-title">Update Contact Form:</div>
+      <p>Form endpoint in index.html (search for form action):</p>
+      <div class="code-block">
+&lt;form action="YOUR_FORM_BACKEND_URL"&gt;
+  ...
+&lt;/form&gt;
+
+Or use third-party service (Formspree, Basin, etc.)
+      </div>
+
+      <div class="subsection-title">Add New Service Card:</div>
+      <p>In services.html, duplicate one card block and update:</p>
+      <div class="code-block">
+&lt;div class="svc-card"&gt;
+  &lt;div class="svc-num"&gt;05&lt;/div&gt;
+  &lt;h3&gt;New Service Title&lt;/h3&gt;
+  &lt;p&gt;Service description here...&lt;/p&gt;
+&lt;/div&gt;
+      </div>
+    </div>
+
+    <!-- TESTING CHECKLIST -->
+    <div class="section">
+      <h2 class="section-title">8. Pre-Deployment Testing Checklist</h2>
+
+      <div class="feature-box">
+        <strong>✓ Desktop Testing:</strong>
+        <ul>
+          <li>[ ] All nav links work and route correctly</li>
+          <li>[ ] Logo links back to home on each page</li>
+          <li>[ ] All text is readable and properly aligned</li>
+          <li>[ ] Images load without errors</li>
+          <li>[ ] Form submits (or error handling works)</li>
+          <li>[ ] 3D logo iframe loads on about.html</li>
+        </ul>
+      </div>
+
+      <div class="feature-box">
+        <strong>✓ Tablet Testing (768px):</strong>
+        <ul>
+          <li>[ ] Nav wraps and remains usable</li>
+          <li>[ ] All content is readable (no overflow)</li>
+          <li>[ ] Touch targets are appropriately sized</li>
+          <li>[ ] Images scale properly</li>
+        </ul>
+      </div>
+
+      <div class="feature-box">
+        <strong>✓ Mobile Testing (640px):</strong>
+        <ul>
+          <li>[ ] Nav stacks vertically</li>
+          <li>[ ] All buttons are full-width and tappable</li>
+          <li>[ ] Text is readable without zooming</li>
+          <li>[ ] Images do not overflow viewport</li>
+          <li>[ ] Form fields are touch-friendly</li>
+        </ul>
+      </div>
+
+      <div class="feature-box">
+        <strong>✓ Security Testing:</strong>
+        <ul>
+          <li>[ ] CSP headers are present (check browser console for violations)</li>
+          <li>[ ] No insecure content warnings</li>
+          <li>[ ] Links to external sites open in new tab safely</li>
+          <li>[ ] Form data is submitted over HTTPS</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ROLLBACK -->
+    <div class="section">
+      <h2 class="section-title">9. Rollback & Version History</h2>
+
+      <p><strong>If issues arise, previous versions are available:</strong></p>
+      <ul>
+        <li><strong>v4.2.06</strong> (Current) — Unified nav + mobile responsive fixes</li>
+        <li><strong>v4.2.5</strong> — Original multi-page structure (Services, Approach, Clients split)</li>
+        <li><strong>v4.2.4</strong> — About page with real logo fix</li>
+        <li><strong>v4.2.3</strong> — Initial multi-page architecture with 3D logo</li>
+      </ul>
+
+      <p><span class="warning">⚠ To rollback:</span> Extract the desired version's ZIP file and redeploy all .html files.</p>
+    </div>
+
+    <!-- SUPPORT -->
+    <div class="section">
+      <h2 class="section-title">10. Support & Troubleshooting</h2>
+
+      <div class="subsection-title">Issue: Mobile nav doesn't display correctly</div>
+      <p><strong>Solution:</strong> Clear browser cache (Ctrl+Shift+Del or Cmd+Shift+Del). Verify viewport meta tag is present in &lt;head&gt;.</p>
+
+      <div class="subsection-title">Issue: 3D logo doesn't load on about.html</div>
+      <p><strong>Solution:</strong> Check that nexaro-3d-logo.html is deployed in the same directory. Verify cdn.jsdelivr.net is not blocked by CSP headers.</p>
+
+      <div class="subsection-title">Issue: Form doesn't submit</div>
+      <p><strong>Solution:</strong> Update form action URL in index.html to your backend endpoint. Test with a POST request in browser console.</p>
+
+      <div class="subsection-title">Issue: Navigation links return 404</div>
+      <p><strong>Solution:</strong> Ensure all .html files are deployed in the root directory. Verify no URL rewrites are conflicting.</p>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <p>Nexaro Global v4.2.06 Build Manual — Last Updated July 28, 2026</p>
+    <p>For technical support, contact: lok0781@outlook.com</p>
+  </div>
+
+</div>
+
+</body>
+</html>

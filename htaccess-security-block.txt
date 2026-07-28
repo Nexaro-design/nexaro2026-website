@@ -1,0 +1,46 @@
+# Nexaro Global — per-page security headers (Apache/.htaccess)
+# Each page has its OWN policy block — do not merge into one blanket rule.
+# services.html, approach.html, clients.html have NO JavaScript, so their
+# script-src is 'none'. nexaro-3d-logo.html omits X-Frame-Options (relies
+# on CSP frame-ancestors 'self' instead) since it's framed by index.html
+# and about.html.
+
+<IfModule mod_headers.c>
+  Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+<FilesMatch "^(index\.html)?$">
+  <IfModule mod_headers.c>
+    Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'sha256-nxH+kK3wOlQgqmw7ikXy3XhhR2aVklS0lsKE+Oe9ZUg='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; frame-ancestors 'none';"
+    Header always set X-Frame-Options "DENY"
+  </IfModule>
+</FilesMatch>
+
+<FilesMatch "^about\.html$">
+  <IfModule mod_headers.c>
+    Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'sha256-aBSa5gCBu87fcI73A+ZWdkdGRkt/lLLhAKt3HzlORCY='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; frame-src 'self'; frame-ancestors 'none';"
+    Header always set X-Frame-Options "DENY"
+  </IfModule>
+</FilesMatch>
+
+<FilesMatch "^(services|approach|clients)\.html$">
+  <IfModule mod_headers.c>
+    Header always set Content-Security-Policy "default-src 'self'; script-src 'none'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; frame-ancestors 'none';"
+    Header always set X-Frame-Options "DENY"
+  </IfModule>
+</FilesMatch>
+
+<FilesMatch "^privacy-policy\.html$">
+  <IfModule mod_headers.c>
+    Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'sha256-15eji0SOJSFX92f4FKoEoqWSOI85Rna8jl2kpBVKLv4='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; frame-ancestors 'none';"
+    Header always set X-Frame-Options "DENY"
+  </IfModule>
+</FilesMatch>
+
+<FilesMatch "^nexaro-3d-logo\.html$">
+  <IfModule mod_headers.c>
+    Header always set Content-Security-Policy "default-src 'self'; script-src 'self' https://cdn.jsdelivr.net 'sha256-aug3wrq3p26amBdALgMSQ9d5LWzXGpp12zZWU2kFNWo='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; frame-ancestors 'self';"
+  </IfModule>
+</FilesMatch>
