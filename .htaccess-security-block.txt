@@ -13,14 +13,14 @@
 
 <FilesMatch "^(index\.html)?$">
   <IfModule mod_headers.c>
-    Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'sha256-U9Cq5Y0cPVz2hfdKBql7p4ZnyX9Rk73uBxJDaEFArAI='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; frame-ancestors 'none';"
+    Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'sha256-8A0XhOtYurPzBASDNmhhhtOb3og1/8VQBALLqjE9a9Y='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; frame-ancestors 'none';"
     Header always set X-Frame-Options "DENY"
   </IfModule>
 </FilesMatch>
 
 <FilesMatch "^about\.html$">
   <IfModule mod_headers.c>
-    Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'sha256-MegEAgJCYJAuqzCH6B7q5uXL0G0/yH6Y0s5FLyN1vD4='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; frame-src 'self'; frame-ancestors 'none';"
+    Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'sha256-7q1K85zIkJeNXjhL5f0eoZPTtl3H2o9wuRPxegIWO+E='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; frame-src 'self'; frame-ancestors 'none';"
     Header always set X-Frame-Options "DENY"
   </IfModule>
 </FilesMatch>
