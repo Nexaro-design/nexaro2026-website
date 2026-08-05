@@ -167,5 +167,43 @@ footer.ab-foot{ background: var(--navy-deep); color:#8A96A8; text-align:center; 
   `;
 })();
 </script>
+<style>
+/* ============================================================
+   FLOATING CONTACT BUTTONS — Nexaro Global (static, zero-JS)
+   Purely additive: does not touch any existing selector.
+   Tooltip and hover/click all work via CSS + native <a href>,
+   so this needs no JavaScript at all, on any page.
+   ============================================================ */
+.floating-contact-container{ position:fixed; right:20px; bottom:24px; z-index:999999; display:flex; flex-direction:column; align-items:flex-end; gap:12px; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; pointer-events:none; }
+.floating-contact-container .contact-btn{ pointer-events:auto; display:inline-flex; align-items:center; gap:10px; padding:10px 16px; border-radius:999px; background:#ffffff; color:#1a1a1a; text-decoration:none; font-size:14px; font-weight:600; line-height:1; box-shadow:0 4px 14px rgba(0,0,0,0.18); border:1px solid rgba(0,0,0,0.06); cursor:pointer; transition:transform 0.18s ease, box-shadow 0.18s ease; transform:translateY(0); position:relative; white-space:nowrap; animation:fcbFadeIn 0.4s ease both; }
+.floating-contact-container .whatsapp-btn{ animation-delay:0.05s; }
+.floating-contact-container .email-btn{ animation-delay:0.15s; }
+.floating-contact-container .contact-btn:hover, .floating-contact-container .contact-btn:focus-visible{ transform:translateY(-3px); box-shadow:0 8px 22px rgba(0,0,0,0.24); }
+.floating-contact-container .contact-btn:active{ transform:translateY(-1px) scale(0.98); }
+.floating-contact-container .btn-icon{ display:inline-flex; align-items:center; justify-content:center; width:32px; height:32px; border-radius:50%; flex-shrink:0; }
+.floating-contact-container .whatsapp-icon{ background:#25d366; }
+.floating-contact-container .email-icon{ background:#111111; }
+.floating-contact-container .btn-label{ padding-left:2px; }
+.floating-contact-container .contact-btn::after{ content:attr(data-tooltip); position:absolute; right:50%; transform:translateX(50%) translateY(4px); bottom:calc(100% + 8px); background:#111111; color:#ffffff; font-size:12px; font-weight:500; padding:5px 10px; border-radius:6px; white-space:nowrap; opacity:0; visibility:hidden; transition:opacity 0.15s ease, transform 0.15s ease; pointer-events:none; }
+.floating-contact-container .contact-btn:hover::after, .floating-contact-container .contact-btn:focus-visible::after{ opacity:1; visibility:visible; transform:translateX(50%) translateY(0); }
+@keyframes fcbFadeIn{ from{ opacity:0; transform:translateY(10px); } to{ opacity:1; transform:translateY(0); } }
+@media (max-width:480px){
+  .floating-contact-container{ right:14px; bottom:16px; gap:10px; }
+  .floating-contact-container .btn-label{ display:none; }
+  .floating-contact-container .contact-btn{ padding:8px; border-radius:50%; }
+  .floating-contact-container .btn-icon{ width:34px; height:34px; }
+}
+@media (prefers-reduced-motion: reduce){ .floating-contact-container .contact-btn, .floating-contact-container .contact-btn::after{ animation:none; transition:none; } }
+</style>
+<div class="floating-contact-container" id="floatingContactContainer">
+  <a href="https://wa.me/61481825576" class="contact-btn whatsapp-btn" target="_blank" rel="noopener noreferrer" aria-label="Chat with us on WhatsApp" data-tooltip="WhatsApp" title="WhatsApp">
+    <span class="btn-label">WhatsApp</span>
+    <span class="btn-icon whatsapp-icon" aria-hidden="true"><svg viewBox="0 0 32 32" width="20" height="20" fill="#ffffff"><path d="M16.001 3.2c-7.07 0-12.8 5.73-12.8 12.8 0 2.258.594 4.373 1.63 6.204L3.2 28.8l6.77-1.776a12.73 12.73 0 0 0 6.03 1.536h.001c7.07 0 12.8-5.73 12.8-12.8s-5.73-12.56-12.8-12.56zm0 23.223a10.36 10.36 0 0 1-5.29-1.45l-.38-.226-4.017 1.054 1.073-3.917-.248-.402a10.36 10.36 0 0 1-1.598-5.522c0-5.73 4.663-10.393 10.463-10.393 5.73 0 10.393 4.663 10.393 10.393 0 5.73-4.663 10.463-10.396 10.463zm5.71-7.79c-.31-.156-1.84-.907-2.126-1.01-.286-.104-.494-.156-.702.156-.208.312-.807 1.01-.99 1.218-.182.208-.364.234-.674.078-.31-.156-1.31-.483-2.494-1.538-.922-.822-1.545-1.838-1.726-2.15-.182-.312-.02-.48.137-.636.14-.14.31-.364.466-.546.156-.182.208-.312.312-.52.104-.208.052-.39-.026-.546-.078-.156-.702-1.69-.962-2.315-.253-.607-.51-.525-.702-.535l-.598-.01c-.208 0-.546.078-.832.39-.286.312-1.09 1.066-1.09 2.6 0 1.534 1.116 3.016 1.272 3.224.156.208 2.196 3.354 5.322 4.702.744.321 1.324.513 1.777.657.746.237 1.425.204 1.962.124.599-.09 1.84-.752 2.1-1.478.26-.727.26-1.35.182-1.478-.078-.13-.286-.208-.598-.364z"/></svg></span>
+  </a>
+  <a href="mailto:Lokesh.Nexaro.Upadhyay@outlook.com" class="contact-btn email-btn" aria-label="Email us" data-tooltip="Email" title="Email">
+    <span class="btn-label">Email</span>
+    <span class="btn-icon email-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="#ffffff"><path d="M2 5.5A2.5 2.5 0 0 1 4.5 3h15A2.5 2.5 0 0 1 22 5.5v13a2.5 2.5 0 0 1-2.5 2.5h-15A2.5 2.5 0 0 1 2 18.5v-13zm2.2.5 7.8 6.1L19.8 6H4.2zM20 8.1l-7.4 5.8a1 1 0 0 1-1.2 0L4 8.1V18.5c0 .28.22.5.5.5h15a.5.5 0 0 0 .5-.5V8.1z"/></svg></span>
+  </a>
+</div>
 </body>
 </html>
