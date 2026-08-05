@@ -6,7 +6,7 @@
   <title>Nexaro Global Pty Ltd | IT Delivery & Digital Transformation Advisory</title>
   <meta name="description" content="Nexaro Global partners with financial services and enterprise clients across Sydney & ANZ to deliver technology change that actually lands. Based in Strathfield, NSW, Australia.">
   
-  <!-- Dependencies -->
+  <!-- Tailwind CSS & Dependencies -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   
@@ -131,26 +131,47 @@
     </a>
   </div>
 
-  <!-- Header / Navigation -->
-  <header class="sticky top-0 z-50 backdrop-blur-xl bg-[#060a14]/90 border-b border-white/10">
+  <!-- Header / Navigation (Original Logo Style Restored) -->
+  <header class="sticky top-0 z-50 bg-[#060a14]/90 backdrop-blur-xl border-b border-white/10">
     <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-      <a href="index.html" class="flex items-center gap-3 group">
-        <div class="w-10 h-10 rounded-xl bg-[#0a1226] border border-amber-500/30 flex items-center justify-center font-black text-xl text-[#d4a94f] shadow-lg shadow-amber-500/10 group-hover:border-amber-400/60 transition-all">
-          N
+      
+      <!-- EXACT ORIGINAL LOGO -->
+      <a href="index.html" class="flex items-center gap-3.5 group">
+        <!-- Elevated Card Icon -->
+        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-[#121c38] to-[#0a1020] border border-amber-500/40 p-1.5 shadow-lg shadow-amber-500/10 group-hover:border-amber-400 group-hover:scale-105 transition-all duration-300 flex items-center justify-center">
+          <svg viewBox="0 0 100 100" class="w-full h-full text-amber-400" fill="none" stroke="currentColor" stroke-width="6">
+            <polygon points="50,10 90,30 90,70 50,90 10,70 10,30" fill="rgba(212,169,79,0.1)"/>
+            <polygon points="50,25 75,38 75,62 50,75 25,62 25,38" fill="rgba(212,169,79,0.2)"/>
+            <circle cx="50" cy="50" r="10" fill="#d4a94f"/>
+          </svg>
         </div>
-        <span class="font-bold text-xl tracking-tight text-white font-['Space_Grotesk']">
-          NEXARO <span class="text-[#d4a94f]">GLOBAL</span>
-        </span>
+        <!-- Typography -->
+        <div class="flex flex-col">
+          <span class="font-extrabold text-xl tracking-tight text-white font-['Space_Grotesk'] leading-none">
+            NEXARO <span class="text-[#d4a94f]">GLOBAL</span>
+          </span>
+          <span class="text-[10px] font-mono tracking-widest text-gray-400 uppercase mt-1">PTY LTD</span>
+        </div>
       </a>
+
+      <!-- Navigation Links -->
       <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-gray-300">
         <a href="#services" class="hover:text-amber-400 transition-colors">Services</a>
         <a href="#about" class="hover:text-amber-400 transition-colors">About Us</a>
         <a href="#lead-generation" class="hover:text-amber-400 transition-colors">Lead Growth</a>
         <a href="#nx-contact" class="hover:text-amber-400 transition-colors">Contact</a>
       </nav>
-      <a href="#nx-contact" class="px-5 py-2.5 rounded-md bg-amber-500 hover:bg-amber-400 text-gray-950 font-bold text-sm transition-all shadow-lg shadow-amber-500/20">
-        Get in Touch
-      </a>
+
+      <!-- Right Header Badge & CTA -->
+      <div class="flex items-center gap-4">
+        <div class="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs text-gray-300">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span>Sydney, AU</span>
+        </div>
+        <a href="#nx-contact" class="px-5 py-2.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-gray-950 font-bold text-sm transition-all shadow-lg shadow-amber-500/20">
+          Get in Touch
+        </a>
+      </div>
     </div>
   </header>
 
@@ -169,8 +190,8 @@
         Nexaro Global partners with Tier-1 Financial Services and enterprise clients across Sydney & ANZ to plan, de-risk, and execute complex IT change programs that actually land.
       </p>
       <div class="mt-8 flex flex-wrap gap-4">
-        <a href="#nx-contact" class="px-7 py-3.5 rounded-md bg-amber-500 hover:bg-amber-400 text-gray-950 font-bold shadow-xl shadow-amber-500/20 transition-all">Start Engagement</a>
-        <a href="#services" class="px-7 py-3.5 rounded-md glass-card text-gray-200 hover:text-white font-semibold transition-all">Explore Capabilities</a>
+        <a href="#nx-contact" class="px-7 py-3.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-gray-950 font-bold shadow-xl shadow-amber-500/20 transition-all">Start Engagement</a>
+        <a href="#services" class="px-7 py-3.5 rounded-lg glass-card text-gray-200 hover:text-white font-semibold transition-all">Explore Capabilities</a>
       </div>
     </div>
 
@@ -215,7 +236,7 @@
       </div>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div class="p-6 rounded-2xl bg-gray-950/60 border border-white/5">
-          <div class="text-amber-400 text-xl font-bold font-mono mb-2">01. Qualified Lead Prospecting</div>
+          <div class="text-amber-400 text-xl font-bold font-mono mb-2">01. Qualified Prospecting</div>
           <p class="text-gray-400 text-sm">Targeted decision-maker list building (CTOs, CIOs, Program Directors) verified across Sydney and broader ANZ industries.</p>
         </div>
         <div class="p-6 rounded-2xl bg-gray-950/60 border border-white/5">
@@ -223,14 +244,14 @@
           <p class="text-gray-400 text-sm">High-touch phone outreach engineered to articulate technical value and secure high-value executive discovery calls.</p>
         </div>
         <div class="p-6 rounded-2xl bg-gray-950/60 border border-white/5">
-          <div class="text-amber-400 text-xl font-bold font-mono mb-2">03. Pipeline Modernization</div>
+          <div class="text-amber-400 text-xl font-bold font-mono mb-2">03. Pipeline Acceleration</div>
           <p class="text-gray-400 text-sm">Full CRM integration, script optimization, and conversion tracking to maximize sales team velocity.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Strategic Capabilities -->
+  <!-- Capabilities Section -->
   <section id="services" class="max-w-7xl mx-auto px-6 py-20">
     <div class="text-center max-w-3xl mx-auto mb-16">
       <div class="font-mono text-xs uppercase tracking-widest text-amber-400 mb-2 font-semibold">Capabilities</div>
