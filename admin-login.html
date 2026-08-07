@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Login | Nexaro Global</title>
+  <!-- EmailJS Library for sending secure validation email -->
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+  <style>
+    body { background-color: #0a0e17; color: #ffffff; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; }
+    .card { background-color: #111625; border: 1px solid #1e2638; border-radius: 12px; padding: 40px; width: 100%; max-width: 380px; box-shadow: 0 20px 40px rgba(0,0,0,0.5); }
+    .brand { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
+    .badge { background-color: #e5a93c; color: #0a0e17; font-weight: bold; padding: 4px 8px; border-radius: 4px; }
+    .logo-text { font-weight: 700; letter-spacing: 1px; }
+    .version { font-size: 12px; color: #e5a93c; margin-bottom: 20px; font-weight: 600; }
+    .form-group { margin-bottom: 15px; }
+    label { font-size: 11px; color: #8a94a6; text-transform: uppercase; display: block; margin-bottom: 5px; }
+    input { width: 100%; background: #0a0e17; border: 1px solid #232d42; color: #fff; padding: 12px; border-radius: 6px; box-sizing: border-box; outline: none; }
+    button { width: 100%; background: #e5a93c; color: #0a0e17; border: none; padding: 12px; border-radius: 6px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+    .msg { font-size: 13px; color: #34d399; margin-bottom: 12px; text-align: center; }
+    .err { color: #f87171; }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <div class="brand">
+      <span class="badge">N</span>
+      <span class="logo-text">NEXARO GLOBAL</span>
+    </div>
+    <div class="version">Version 04.02.14-Admin</div>
+
+    <div id="status-msg" class="msg"></div>
+
+    <!-- STEP 1: LOGIN FORM -->
+    <form id="login-form">
+      <h2 style="font-size: 18px; margin-bottom: 15px;">Admin Login</h2>
+      <div class="form-group">
+        <label>Admin Email</label>
+        <input type="email" id="email" required placeholder="admin@nexaroglobal.com">
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" id="password" required placeholder="••••••••••••">
+      </div>
+      <button type="submit">Send Secure Email Code</button>
+    </form>
+
+    <!-- STEP 2: VERIFICATION CODE FORM (HIDDEN INITIALLY) -->
+    <form id="verify-form" style="display: none;">
+      <h2 style="font-size: 18px; margin-bottom: 15px;">Email Verification</h2>
+      <div class="form-group">
+        <label>Enter 6-Digit Code</label>
+        <input type="text" id="otp-input" maxlength="6" required placeholder="123456">
+      </div>
+      <button type="submit">Validate & Enter Admin</button>
+    </form>
+  </div>
+
+  <script>
+    // Initialize EmailJS
+    emailjs.init("YOUR_EMAILJS_PUBLIC_KEY"); // Replace with your key
+
+    let generatedOTP = "";
+    const ADMIN_EMAIL = "lok0781@outlook.com";
+    const ADMIN_PASS = "AdminSecure2026!"; // Set your preferred password
+
+    const loginForm = document.getElementById('login-form');
+    const verifyForm = document.getElementById('verify-form');
+    const statusMsg = document.getElementById('status-msg');
+
+    loginForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const emailVal = document.getElementById('email').value;
+      const passVal = document.getElementById('password').value;
+
+      if (emailVal === ADMIN_EMAIL && passVal === ADMIN_PASS) {
+        // Generate random 6-digit code
+        generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
+
+        // Send OTP via email
+        emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", {
+          to_email: emailVal,
+          otp_code: generatedOTP,
+          version: "Version 04.02.14-Admin"
+        }).then(function() {
+          statusMsg.className = "msg";
+          statusMsg.innerText = "Validation code sent to your email!";
+          loginForm.style.display = "none";
+          verifyForm.style.display = "block";
+        }, function(error) {
+          statusMsg.className = "msg err";
+          statusMsg.innerText = "Failed to send email. Check EmailJS settings.";
+        });
+
+      } else {
+        statusMsg.className = "msg err";
+        statusMsg.innerText = "Invalid Admin Credentials.";
+      }
+    });
+
+    verifyForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const codeEntered = document.getElementById('otp-input').value;
+
+      if (codeEntered === generatedOTP) {
+        // Store session token
+        sessionStorage.setItem('admin_auth', 'true');
+        window.location.href = 'admin-dashboard.html';
+      } else {
+        statusMsg.className = "msg err";
+        statusMsg.innerText = "Incorrect verification code.";
+      }
+    });
+  </script>
+</body>
+</html>
