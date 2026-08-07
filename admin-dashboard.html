@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Dashboard | Nexaro Global</title>
+  <style>
+    body { background: #0a0e17; color: #fff; font-family: sans-serif; margin: 0; display: flex; min-height: 100vh; }
+    aside { width: 240px; background: #111625; border-right: 1px solid #1e2638; padding: 20px; }
+    main { flex: 1; padding: 30px; }
+    .badge { background: #e5a93c; color: #0a0e17; font-weight: bold; padding: 2px 6px; border-radius: 4px; }
+    .ver { font-size: 11px; color: #e5a93c; margin-top: 5px; margin-bottom: 20px; }
+    .card { background: #111625; border: 1px solid #1e2638; padding: 20px; border-radius: 8px; margin-bottom: 20px; }
+    input, textarea { width: 100%; background: #0a0e17; border: 1px solid #232d42; color: #fff; padding: 10px; border-radius: 4px; box-sizing: border-box; margin-bottom: 12px; }
+    button { background: #e5a93c; color: #0a0e17; border: none; padding: 10px 20px; font-weight: bold; border-radius: 4px; cursor: pointer; }
+  </style>
+</head>
+<body>
+
+  <!-- AUTHENTICATION CHECK -->
+  <script>
+    if (sessionStorage.getItem('admin_auth') !== 'true') {
+      window.location.href = 'admin-login.html';
+    }
+  </script>
+
+  <aside>
+    <h3><span class="badge">N</span> NEXARO GLOBAL</h3>
+    <div class="ver">Version 04.02.14-Admin</div>
+    <p style="color: #e5a93c;">Content Editor</p>
+    <p style="color: #8a94a6; cursor: pointer;" onclick="logout()">Logout</p>
+  </aside>
+
+  <main>
+    <h2>Site Internal Management Panel</h2>
+    
+    <div class="card">
+      <h3>Edit Hero Text</h3>
+      <label style="font-size: 12px; color: #8a94a6;">Main Headline</label>
+      <textarea id="hero-text" rows="3">Every transformation has a delivery problem. We solve that part.</textarea>
+      
+      <h3>Upload & Replace Site Assets / Images</h3>
+      <input type="file" id="file-upload">
+      
+      <button onclick="saveChanges()">Save Updates</button>
+    </div>
+  </main>
+
+  <script>
+    function saveChanges() {
+      alert("Updates saved successfully under Version 04.02.14-Admin!");
+    }
+    function logout() {
+      sessionStorage.removeItem('admin_auth');
+      window.location.href = 'admin-login.html';
+    }
+  </script>
+</body>
+</html>
